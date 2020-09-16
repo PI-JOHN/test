@@ -47,6 +47,24 @@
                     <option value="false">JNO</option>
                     <option value="true">JYES</option>
                 </field>
+                <field name="ecommerceNeeded" id="ecommerceNeeded" type="radio"
+                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_DESC"
+                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_LABEL"
+                       required="true"
+                       default="false"
+                >
+                    <option value="false">JNO</option>
+                    <option value="true">JYES</option>
+                </field>
+                <field name="ecommerceVariable" id="ecommerceVariable" type="text"
+                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_DESC"
+                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_LABEL"
+                       showon="ecommerceNeeded:true"
+                       hint="Введите название переменной"
+                       required="false"
+                       default="dataLayer"
+                       pattern="[^$]+"
+                />
             </fieldset>
 
         </fields>

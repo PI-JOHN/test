@@ -26,6 +26,12 @@ class plgSystemIdanalytics extends JPlugin
 
 	protected function getAnalyticsCode()
 	{
+		if ($this->params->get("ecommerceNeeded") == "true")
+		{
+			$ecommerce = $this->params->get("ecommerceVariable", "dataLayer");
+			$ecommerce = ',ecommerce: "' . $ecommerce . '"';
+		}
+
 		$code = <<<HTML
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
@@ -38,8 +44,10 @@ class plgSystemIdanalytics extends JPlugin
         trackLinks:true,
         accurateTrackBounce:true,
         webvisor:%s,
-        trackHash:%s,
+        trackHash:%s
+        %s
    });
+   
 </script>
 <!-- /Yandex.Metrika counter -->
 HTML;
@@ -54,7 +62,7 @@ HTML;
 		$trachHashNeeded = $this->params->get('trackHashNeeded', 'false');
 
 		return [
-			'head' => sprintf($code, $yandexMetrikaCounterId, $webvisorNeeded, $trachHashNeeded),
+			'head' => sprintf($code, $yandexMetrikaCounterId, $webvisorNeeded, $trachHashNeeded,isset($ecommerce) ? $ecommerce : null),
 			'body' => sprintf($codeNoScript, $yandexMetrikaCounterId)
 		];
 	}
