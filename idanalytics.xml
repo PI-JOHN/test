@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system">
+    <name>PLG_SYSTEM_IDANALYTICS</name>
+    <author>Aleksey Vaganov</author>
+    <creationDate>July 2020</creationDate>
+    <copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>a.vaganov@webdivision.ru</authorEmail>
+    <authorUrl>webdivision.ru</authorUrl>
+    <version>1.0.1</version>
+    <description>PLG_SYSTEM_IDANALYTICS_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="idanalytics">idanalytics.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">lang/en-GB.plg_system_idanalytics.ini</language>
+        <language tag="en-GB">lang/en-GB.plg_system_idanalytics.sys.ini</language>
+        <language tag="ru-RU">lang/ru-RU.plg_system_idanalytics.ini</language>
+        <language tag="ru-RU">lang/ru-RU.plg_system_idanalytics.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic">
+                <field name="YandexMetrikaCounterId" type="text"
+                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_YANDEXMETRIKACOUNTERID_DESC"
+                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_YANDEXMETRIKACOUNTERID_LABEL"
+                       required="true"
+                       pattern="\d+"
+                />
+                <field name="webvisorNeeded" type="radio"
+                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_DESC"
+                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_LABEL"
+                       required="true"
+                       default="false"
+                >
+                    <option value="false">JNO</option>
+                    <option value="true">JYES</option>
+                </field>
+                <field name="trackHashNeeded" type="radio"
+                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_DESC"
+                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_LABEL"
+                       required="true"
+                       default="false"
+                >
+                    <option value="false">JNO</option>
+                    <option value="true">JYES</option>
+                </field>
+            </fieldset>
+
+        </fields>
+    </config>
+    <updateservers>
+        <server type="extension" name="Yandex.Metrika plugin updates">https://downloads.webdivision.ru/plg_system_idanalytics/updates.xml</server>
+    </updateservers>
+</extension>
