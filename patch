@@ -1,0 +1,93 @@
+diff --git a/idanalytics.php b/idanalytics.php
+index 5c43e8c..dab18e5 100644
+--- a/idanalytics.php
++++ b/idanalytics.php
+@@ -26,6 +26,12 @@ class plgSystemIdanalytics extends JPlugin
+ 
+ 	protected function getAnalyticsCode()
+ 	{
++		if ($this->params->get("ecommerceNeeded") == "true")
++		{
++			$ecommerce = $this->params->get("ecommerceVariable", "dataLayer");
++			$ecommerce = ',ecommerce: "' . $ecommerce . '"';
++		}
++
+ 		$code = <<<HTML
+ <!-- Yandex.Metrika counter -->
+ <script type="text/javascript" >
+@@ -38,8 +44,10 @@ class plgSystemIdanalytics extends JPlugin
+         trackLinks:true,
+         accurateTrackBounce:true,
+         webvisor:%s,
+-        trackHash:%s,
++        trackHash:%s
++        %s
+    });
++   
+ </script>
+ <!-- /Yandex.Metrika counter -->
+ HTML;
+@@ -54,7 +62,7 @@ HTML;
+ 		$trachHashNeeded = $this->params->get('trackHashNeeded', 'false');
+ 
+ 		return [
+-			'head' => sprintf($code, $yandexMetrikaCounterId, $webvisorNeeded, $trachHashNeeded),
++			'head' => sprintf($code, $yandexMetrikaCounterId, $webvisorNeeded, $trachHashNeeded,isset($ecommerce) ? $ecommerce : null),
+ 			'body' => sprintf($codeNoScript, $yandexMetrikaCounterId)
+ 		];
+ 	}
+diff --git a/idanalytics.xml b/idanalytics.xml
+index 5b5e184..eea71da 100644
+--- a/idanalytics.xml
++++ b/idanalytics.xml
+@@ -47,6 +47,24 @@
+                     <option value="false">JNO</option>
+                     <option value="true">JYES</option>
+                 </field>
++                <field name="ecommerceNeeded" id="ecommerceNeeded" type="radio"
++                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_DESC"
++                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_LABEL"
++                       required="true"
++                       default="false"
++                >
++                    <option value="false">JNO</option>
++                    <option value="true">JYES</option>
++                </field>
++                <field name="ecommerceVariable" id="ecommerceVariable" type="text"
++                       description="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_DESC"
++                       label="JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_LABEL"
++                       showon="ecommerceNeeded:true"
++                       hint="Введите название переменной"
++                       required="false"
++                       default="dataLayer"
++                       pattern="[^$]+"
++                />
+             </fieldset>
+ 
+         </fields>
+diff --git a/lang/en-GB.plg_system_idanalytics.sys.ini b/lang/en-GB.plg_system_idanalytics.sys.ini
+index 7af8108..b2989f3 100644
+--- a/lang/en-GB.plg_system_idanalytics.sys.ini
++++ b/lang/en-GB.plg_system_idanalytics.sys.ini
+@@ -6,3 +6,7 @@ JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_DESC="Is need a webvisor usage (yes
+ JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_LABEL="Webvisor needed"
+ JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_DESC="Is need a hash tracking (yes/no)"
+ JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_LABEL="Hash tracking"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_DESC="Is need a ecommerce? (yes/no)"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_LABEL="Ecommerce"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_DESC="Write a name for the variable"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_LABEL="Variables name (default dataLayer)"
+\ No newline at end of file
+diff --git a/lang/ru-RU.plg_system_idanalytics.sys.ini b/lang/ru-RU.plg_system_idanalytics.sys.ini
+index b3715c4..00826d1 100644
+--- a/lang/ru-RU.plg_system_idanalytics.sys.ini
++++ b/lang/ru-RU.plg_system_idanalytics.sys.ini
+@@ -6,3 +6,7 @@ JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_DESC="Укажите нужен и
+ JFIELD_PLG_SYSTEM_IDANALYTICS_WEBVISORNEEDED_LABEL="Вебвизор"
+ JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_DESC="Укажите необходимо или нет отслеживать хэши в адресе"
+ JFIELD_PLG_SYSTEM_IDANALYTICS_TRACKHASHNEEDED_LABEL="Отслеживание хэшей"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_DESC="Укажите необходимо ли собирать данные электронной коммерции"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCENEEDED_LABEL="Электронная коммерция"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_DESC="Напишите желаемое название для переменной"
++JFIELD_PLG_SYSTEM_IDANALYTICS_ECOMMERCEVARIABLE_LABEL="Имя переменной (по умолчанию dataLayer)"
+\ No newline at end of file
